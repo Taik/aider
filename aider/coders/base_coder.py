@@ -153,7 +153,11 @@ class Coder:
         if self.repo:
             rel_repo_dir = self.repo.get_rel_repo_dir()
             num_files = len(self.repo.get_tracked_files())
-            lines.append(f"Git repo: {rel_repo_dir} with {num_files:,} files")
+
+            git_status = f"Git repo: {rel_repo_dir} with {num_files:,} files"
+            if self.repo.subtree_only and self.repo.cwd:
+                git_status += f" (subtree: {self.repo.cwd})"
+            lines.append(git_status)
             if num_files > 1000:
                 lines.append(
                     "Warning: For large repos, consider using --subtree-only and .aiderignore"
